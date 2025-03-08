@@ -12,8 +12,6 @@ pipeline{
                 sshagent(['multi-ip']) {
                     sh """
                         ssh -o StrictHostKeyChecking=no grafana@$server_name '
-                        rm -rf $HOME/$server_environment &&
-                        mkdir -p $HOME/$server_environment &&
                         cd $HOME/$server_environment &&
                         git clone "https://github.com/dksin077/two-tier-flask-app.git" '
                     """
@@ -28,7 +26,7 @@ pipeline{
          stage("sonar-scanner analysis"){
             steps{
                 withSonarQubeEnv("sonar"){
-                    sh "$HOME_SONAR/bin/sonar-scanner -Dsonar.projectName=your-app -Dsonar.projectKey=notes-project"
+                    sh "$HOME_SONAR/bin/sonar-scanner -Dsonar.projectName=notes-project -Dsonar.projectKey=notes-project"
                 }
             }
         }
@@ -68,9 +66,9 @@ pipeline{
                         sh """
                             ssh -o StrictHostKeyChecking=no grafana@$server_name '
                             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin &&
-                            docker pull "${DOCKER_USERNAME}"/your-app:latest &&
+                            docker pull "${DOCKER_USERNAME}"/flaskapp:latest &&
                             ip r
-                        cd $HOME/$server_environment/your-app &&
+                        cd $HOME/$server_environment/flaskapp:latest &&
                             docker compose down && docker compose up -d '
                         """
                     }
