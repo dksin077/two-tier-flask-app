@@ -13,7 +13,9 @@ pipeline{
                     sh """
                         ssh -o StrictHostKeyChecking=no grafana@$server_name '
                         cd $HOME/$server_environment &&
-                        git clone "https://github.com/dksin077/two-tier-flask-app.git" '
+                        echo hello
+                        git clone "https://github.com/dksin077/two-tier-flask-app.git" 
+                        echo hello ajay'
                     """
                 }
             }
