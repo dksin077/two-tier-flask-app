@@ -19,6 +19,8 @@ pipeline{
         }
         stage('docker build'){
             steps{
+                sh "docker exec -it afb47d03a9d3 bash"
+                cd $WORKSPACE
                 sh "docker build -t flaskapp:latest ."       
             }
         }
@@ -44,6 +46,8 @@ pipeline{
         }
         stage('trivy'){
             steps{
+                sh "docker exec -it afb47d03a9d3 bash"
+                cd $WORKSPACE
                 sh "trivy image flaskapp:latest"       
             }
         }
@@ -67,7 +71,7 @@ pipeline{
                             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin &&
                             docker pull "${DOCKER_USERNAME}"/flaskapp:latest &&
                             ip r
-                        cd $HOME/$server_environment/flaskapp:latest &&
+                        cd $HOME/$server_environment/two-tier-flask-app &&
                             docker compose down && docker compose up -d '
                         """
                     }
