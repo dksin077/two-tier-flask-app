@@ -14,7 +14,7 @@ pipeline{
                         ssh -o StrictHostKeyChecking=no username@$server_name '
                         rm -rf $HOME/$server_environment &&
                         mkdir -p $HOME/$server_environment &&
-                        cd $HOME/$server_environmentt &&
+                        cd $HOME/$server_environment &&
                         git clone "https://github.com/dksin077/two-tier-flask-app.git" '
                     """
                 }
