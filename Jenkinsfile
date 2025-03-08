@@ -11,7 +11,7 @@ pipeline{
                 git url: "https://github.com/dksin077/two-tier-flask-app.git",branch : "master" , credentialsId: "git-credentials"
                 sshagent(['multi-ip']) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no username@$server_name '
+                        ssh -o StrictHostKeyChecking=no grafana@$server_name '
                         rm -rf $HOME/$server_environment &&
                         mkdir -p $HOME/$server_environment &&
                         cd $HOME/$server_environment &&
@@ -66,7 +66,7 @@ pipeline{
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sshagent(['multi-ip']) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no username@$server_name '
+                            ssh -o StrictHostKeyChecking=no grafana@$server_name '
                             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin &&
                             docker pull "${DOCKER_USERNAME}"/your-app:latest &&
                             ip r
@@ -84,7 +84,7 @@ pipeline{
                     withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sshagent(['multi-ip']) {
                         sh """
-                            ssh -o StrictHostKeyChecking=no username@$server_name '
+                            ssh -o StrictHostKeyChecking=no grafana@$server_name '
                             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin &&
                             docker pull iniweb/owasp-zap2docker-stable
                             docker run -t iniweb/owasp-zap2docker-stable zap-baseline.py -t http://192.168.100.122:8000 || true || true '
