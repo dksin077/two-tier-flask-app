@@ -12,10 +12,7 @@ pipeline{
                 sshagent(['multi-ip']) {
                     sh """
                         ssh -o StrictHostKeyChecking=no grafana@$server_name '
-                        cd $HOME/$server_environment &&
-                        echo hello
-                        git clone "https://github.com/dksin077/two-tier-flask-app.git" 
-                        echo hello ajay'
+                        cd $HOME/$server_environment/two-tier-flask-app'
                     """
                 }
             }
